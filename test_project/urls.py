@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('user.urls')),
+    path('employee/', include('employee.urls')),
 ]
 
 if settings.DEBUG:  # Dev only

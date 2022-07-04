@@ -1,18 +1,16 @@
 from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.contrib.auth import logout, authenticate, login as a_login
-from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from .forms import LoginForm, NewUserCreationFormEmployee
 from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-def email_check_employee(user):
-    return user.email.endswith('@xyz.com')
-# usage ---- @user_passes_test(email_check_employee, login_url='/')
-
 
 def login(request):
+    if request.user.is_authenticated:
+        if request.user.user_type == 1:
+            return HttpResponseRedirect(reverse("dashboardEmployee"))
     form = LoginForm(request.POST or None)
     context = {
         "form": form,
@@ -32,7 +30,8 @@ def login(request):
                 if 'next' in request.POST:
                     return redirect(request.POST.get('next'))
                 else:
-                    return redirect("login")
+                    if user.user_type == 1:
+                        return redirect("dashboardEmployee")
             else:
                 messages.error(request, "Invalid user")
     return render(request, "login.html", context)
@@ -66,5 +65,3 @@ def registerEmployee(request):
             messages.error(request, list(form.errors.values()))
             return render(request, 'registerEmployee.html', context={'form': form})
     return render(request, 'registerEmployee.html', context)
-
-

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     # Local apps
     'user.apps.UserConfig',
+    'employee.apps.EmployeeConfig',
 ]
 
 MIDDLEWARE = [

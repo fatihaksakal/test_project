@@ -53,3 +53,6 @@ class CustomerUserAdmin(MyUserAdmin, admin.ModelAdmin):
         ('XYZ Employee', {'fields': ('related_employee',)}),
     )
     fieldsets = MyUserAdmin.fieldsets + customer_fieldsets
+
+
+admin.site.register(NewUser, MyUserAdmin)
