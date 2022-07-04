@@ -9,7 +9,6 @@ import uuid
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
-
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('Users require an email field')
@@ -44,12 +43,15 @@ class NewUser(AbstractUser):
         (CUSTOMER, 'Customer')
     ]
     username = None
-    user_type = models.PositiveSmallIntegerField(choices=user_type_choices, null=True)
     email = models.EmailField(_('email address'), unique=True)
+    user_type = models.PositiveSmallIntegerField(choices=user_type_choices, null=True)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+    def __str__(self):
+        return self.email
 
 
 class Employee(NewUser):
