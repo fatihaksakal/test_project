@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # Local apps
     'user.apps.UserConfig',
     'employee.apps.EmployeeConfig',
+    'customer.apps.CustomerConfig',
 ]
 
 MIDDLEWARE = [
