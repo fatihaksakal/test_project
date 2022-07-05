@@ -1,11 +1,23 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block head %}
-
-{% endblock head %}
-
 {% block body %}
-    <h1>dashboard employee</h1>
+    <div class="container mt-4">
+        <form id="customer_invitation_fom" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <label for="customer_email" class="form-label">Email address</label>
+            <div class="row">
+                <div class="col-8">
+                    <div class="mb-3">
+                        {{ form.customer_email }}
+                        <div id="emailHelp" class="form-text">Enter the customer email to send invitation link.</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <button type="submit" class="btn w-100 btn-success">Send Invitation Link</button>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock body %}
 
