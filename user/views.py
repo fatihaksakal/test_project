@@ -55,7 +55,7 @@ def registerEmployee(request):
         if form.is_valid():
             employeeUserObj = form.save(commit=False)
             employeeUserObj.user_type = 1
-            employeeUserObj.save()
+            form.save()
             return HttpResponseRedirect(reverse("login"))
         else:
             messages.error(request, list(form.errors.values()) + [1])

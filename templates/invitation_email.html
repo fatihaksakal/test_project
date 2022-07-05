@@ -1,0 +1,8 @@
+{% autoescape off %}
+Hi Admin {{ customer_email }},
+Please register yourself and your company in XYZ website via the following link xxx
+Please click on the link to confirm  {{ user.username }}'s  account activation.
+Username : {{ user.username }}
+Email :  {{ user.email }}
+https://{{ domain }}{% url 'activate_admin' uu_id=uid %}
+{% endautoescape %}
