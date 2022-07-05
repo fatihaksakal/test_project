@@ -4,5 +4,5 @@ Please register yourself and your company in XYZ website via the following link 
 Please click on the link to confirm  {{ user.username }}'s  account activation.
 Username : {{ user.username }}
 Email :  {{ user.email }}
-https://{{ domain }}{% url 'activate_admin' uu_id=uid %}
+https://{{ domain }}{% url 'customer_register' uu_id=uid customer_email=customer_email_hash %}
 {% endautoescape %}

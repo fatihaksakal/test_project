@@ -21,13 +21,6 @@ class NewUserCreationForm(UserCreationForm):
     last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(
         attrs={'class': "form-control", 'id': 'floatingLastName', 'placeholder': 'Last Name'}))
 
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        if not email.endswith('@xyz.com'):
-            raise ValidationError("This registration just for xyz.com mail users.")
-        else:
-            return email
-
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
         self.fields['password1'].widget.attrs['class'] = 'form-control'
@@ -44,3 +37,10 @@ class NewUserCreationFormEmployee(NewUserCreationForm):
     class Meta:
         model = Employee
         fields = ('email', 'first_name', 'last_name', 'password1', 'password2')
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if not email.endswith('@xyz.com'):
+            raise ValidationError("This registration just for xyz.com mail users.")
+        else:
+            return email

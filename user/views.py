@@ -11,6 +11,8 @@ def login(request):
     if request.user.is_authenticated:
         if request.user.user_type == 1:
             return HttpResponseRedirect(reverse("dashboardEmployee"))
+        elif request.user.user_type == 2:
+            return HttpResponseRedirect(reverse("dashboardCustomer"))
     form = LoginForm(request.POST or None)
     context = {
         "form": form,
