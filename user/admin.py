@@ -40,12 +40,11 @@ class MyUserAdmin(UserAdmin):
 
 @admin.register(Employee)
 class EmployeeUserAdmin(admin.ModelAdmin):
-    pass
-    # employee_fieldsets = (
-    #     ('Credentials', {'fields': ('uu_id',)}),
-    # )
-    #
-    # fieldsets = MyUserAdmin.fieldsets + employee_fieldsets
+    employee_fieldsets = (
+        ('Credentials', {'fields': ('uu_id',)}),
+    )
+
+    fieldsets = MyUserAdmin.fieldsets + employee_fieldsets
 
 
 @admin.register(Customer)
