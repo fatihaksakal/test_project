@@ -26,7 +26,7 @@ def login(request):
             )
             if user is not None:
                 a_login(request, user)
-                messages.success(request, "Successfully logged in,")
+                messages.success(request, "Successfully logged in")
                 if 'next' in request.POST:
                     return redirect(request.POST.get('next'))
                 else:
@@ -54,14 +54,10 @@ def registerEmployee(request):
         form = NewUserCreationFormEmployee(request.POST)
         if form.is_valid():
             employeeUserObj = form.save(commit=False)
-            if form.cleaned_data.get("email").endswith('@xyz.com'):
-                employeeUserObj.user_type = 1
-                employeeUserObj.save()
-                return HttpResponseRedirect(reverse("login"))
-            else:
-                messages.info(request, "This registration just for xyz.com mail users.")
-                return render(request, 'registerEmployee.html', context={'form': form})
+            employeeUserObj.user_type = 1
+            employeeUserObj.save()
+            return HttpResponseRedirect(reverse("login"))
         else:
-            messages.error(request, list(form.errors.values()))
+            messages.error(request, list(form.errors.values()) + [1])
             return render(request, 'registerEmployee.html', context={'form': form})
     return render(request, 'registerEmployee.html', context)

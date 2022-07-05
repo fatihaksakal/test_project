@@ -1,6 +1,7 @@
 from django import forms
 from .models import NewUser
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
 
 
 # Create your forms here.
@@ -20,9 +21,12 @@ class NewUserCreationFormEmployee(UserCreationForm):
     last_name = forms.CharField(required=True, label="Last Name", widget=forms.TextInput(
         attrs={'class': "form-control", 'id': 'floatingLastName', 'placeholder': 'Last Name'}))
 
-    class Meta(UserCreationForm):
-        model = NewUser
-        fields = ('email', 'first_name', 'last_name')
+    def clean(self):
+        email = self.cleaned_data.get("email")
+        if not email.endswith('@xyz.com'):
+            raise ValidationError("This registration just for xyz.com mail users.")
+        else:
+            return email
 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
@@ -30,3 +34,7 @@ class NewUserCreationFormEmployee(UserCreationForm):
         self.fields['password1'].widget.attrs['placeholder'] = 'Password'
         self.fields['password2'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs['placeholder'] = 'Password Confirmation'
+
+    class Meta(UserCreationForm):
+        model = NewUser
+        fields = ('email', 'first_name', 'last_name')

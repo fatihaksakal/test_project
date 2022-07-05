@@ -10,6 +10,6 @@ def email_check_employee(user):
 
 
 @login_required(login_url='/')
-@user_passes_test(email_check_employee, login_url='/')
+# @user_passes_test(email_check_employee, login_url='/')
 def dashboardEmployee(request):
     return render(request, "dashboardEmployee.html")

@@ -1,7 +1,68 @@
-<nav class="navbar bg-light">
-    <a class="navbar-brand ms-3">XYZ Company</a>
-    <form class="d-flex me-3" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+{% load static %}
+<nav class="navbar navbar-expand bg-dark shadow-sm"
+     style="height: 60px; border-bottom: 2px solid; border-color: grey;">
+    <div class="container-fluid px-5">
+        <a class="text-decoration-none" href="{% url 'login' %}">
+            <h4 class="text-white">XYZ Company</h4>
+        </a>
+
+        <div>
+            <ul class="nav col-12 col-lg-auto mr-lg-auto justify-content-center mb-md-0">
+                {% if request.user.user_type == 1 %}
+                    <li class="nav-item">
+                    <a class="nav-link text-white active" aria-current="page"
+                        {% if request.user.user_type == 1 %}
+                            href="{% url 'dashboardEmployee' %}"
+                        {% endif %}
+                    >Dashboard</a>
+                </li>
+                    <li class="nav-item">
+                    <a class="nav-link text-white active" aria-current="page"
+                        {% if request.user.user_type == 1 %}
+                            href="{% url 'dashboardEmployee' %}"
+                        {% endif %}
+                    >Customer</a>
+                </li>
+                {% endif %}
+                <a class="nav-link text-danger" type="button" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                         class="bi bi-power" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z"/>
+                        <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z"/>
+                    </svg>
+                </a>
+                <div class="modal fade text-dark" id="logoutModal" tabindex="-1"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Log out ?</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="modal-body confirm-delete">
+                                    Are you sure you want to log out? Confirm and log out.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                </button>
+                                <a class="btn btn-danger" href="{% url 'logout' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-power" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z"/>
+                                        <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z"/>
+                                    </svg>
+                                    Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
 </nav>
