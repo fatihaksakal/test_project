@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% load static %}
+
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/signin.css' %}">
+{% endblock head %}
+
+
+{% block body %}
+    <div class="text-center">
+        <main class="form-signin w-100 m-auto">
+            <form enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <h1 class="h3 mb-3 fw-normal">XYZ Company</h1>
+{#                {% if form.errors %}#}
+{#                    {% for field in form %}#}
+{#                        {% for error in field.errors %}#}
+{#                            <div class="alert alert-danger">#}
+{#                                <strong>{{ error|escape }}</strong>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+{#                    {% endfor %}#}
+{#                    {% for error in form.non_field_errors %}#}
+{#                        <div class="alert alert-danger">#}
+{#                            <strong>{{ error|escape }}</strong>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                {% endif %}#}
+                <div class="form-floating">
+                    {{ form.email }}
+                    <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating">
+                    {{ form.first_name }}
+                    <label for="floatingPassword">First Name</label>
+                </div>
+                <div class="form-floating">
+                    {{ form.last_name }}
+                    <label for="floatingPassword">Last Name</label>
+                </div>
+                <div class="form-floating">
+                    {{ form.password1 }}
+                    <label for="floatingPassword">Password</label>
+                </div>
+                <div class="form-floating mb-2">
+                    {{ form.password2 }}
+                    <label for="floatingPassword">Password Confirmation</label>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-success" style="border-radius: 0.25rem; font-size: 1rem;"
+                        type="submit">Sign up
+                </button>
+            </form>
+            <div class="well">
+                <p class="text-divider text-muted"><span>Already have an account ?</span></p>
+            </div>
+            <a href="{% url 'login' %}" class="w-100 btn btn-lg btn-outline-secondary"
+               style="border-radius: 0.25rem; font-size: 1rem;">
+                Sign in
+            </a>
+            <p class="mt-5 mb-3 text-muted">&copy; 2022 XYZ Company</p>
+        </main>
+    </div>
+{% endblock body %}

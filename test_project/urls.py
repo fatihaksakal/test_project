@@ -15,11 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('user.urls')),
+    path('employee/', include('employee.urls')),
+    path('customer/', include('customer.urls')),
 ]
+
+if settings.DEBUG:  # Dev only
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 
 admin.site.site_header = "XYZ Company"
 admin.site.index_title = "XYZ Administration Panel"

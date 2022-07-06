@@ -43,9 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'crispy_forms',
     # Local apps
     'user.apps.UserConfig',
+    'employee.apps.EmployeeConfig',
+    'customer.apps.CustomerConfig',
 ]
 
 MIDDLEWARE = [
@@ -131,6 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -139,3 +142,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'user.NewUser'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Email settings details
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.rismaq.com'
+EMAIL_HOST_USER = 'webmesaj@rismaq.com'
+EMAIL_HOST_PASSWORD = 'erh951951'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_PORT = '465'
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+

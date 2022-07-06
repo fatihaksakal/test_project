@@ -44,12 +44,15 @@ class NewUser(AbstractUser):
         (CUSTOMER, 'Customer')
     ]
     username = None
-    user_type = models.PositiveSmallIntegerField(choices=user_type_choices, null=True)
     email = models.EmailField(_('email address'), unique=True)
+    user_type = models.PositiveSmallIntegerField(choices=user_type_choices, null=True, blank=True, default='')
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+    def __str__(self):
+        return self.email
 
 
 class Employee(NewUser):

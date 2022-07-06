@@ -1,0 +1,16 @@
+{% autoescape off %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>XYZ Company</title>
+    </head>
+    <body>
+    Hi {{ customer_email }},
+    Please register yourself and your company in XYZ website via the following link.
+    <a href="http://{{ domain }}{% url 'customer_register' uu_id=uid customer_email=customer_email_hash %}">Click here
+        to register.</a>
+    </body>
+    </html>
+{% endautoescape %}
