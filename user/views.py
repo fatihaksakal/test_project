@@ -34,6 +34,8 @@ def login(request):
                 else:
                     if user.user_type == 1:
                         return redirect("dashboardEmployee")
+                    elif request.user.user_type == 2:
+                        return redirect("dashboardCustomer")
             else:
                 messages.error(request, "Invalid user")
     return render(request, "login.html", context)

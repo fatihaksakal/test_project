@@ -2,22 +2,25 @@
 {% load static %}
 
 {% block body %}
-    <div class="container mt-4">
-        <form id="customer_invitation_fom" enctype="multipart/form-data" method="post">
-            {% csrf_token %}
-            <label for="customer_email" class="form-label">Email address</label>
-            <div class="row">
-                <div class="col-8">
-                    <div class="mb-3">
-                        {{ form.customer_email }}
-                        <div id="emailHelp" class="form-text">Enter the customer email to send invitation link.</div>
+    <div class="container justify-content-center mt-4">
+        <div class="col-8">
+            <h4>Send Invitation to Customer</h4>
+            <form id="customer_invitation_fom" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-9">
+                        <div class="mb-3">
+                            {{ form.customer_email }}
+                            <div id="emailHelp" class="form-text">Enter the customer email to send invitation link.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-success">Send</button>
                     </div>
                 </div>
-                <div class="col-4">
-                    <button type="submit" class="btn w-100 btn-success">Send Invitation Link</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     <div class="mt-4">
         {% if related_customers %}
@@ -42,7 +45,7 @@
                                 <td>{{ customer.last_name }}</td>
                                 <td>
                                     <div class="d-inline-flex">
-                                        <a  class="btn-sm btn-primary px-4 py-2"
+                                        <a class="btn-sm btn-primary px-4 py-2"
                                            style="text-decoration: none;">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                  fill="currentColor"

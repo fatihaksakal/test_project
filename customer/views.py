@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from .forms import NewUserCreationFormCustomer
-from user.models import NewUser, Employee
+from user.models import NewUser, Employee, Customer
 from django.contrib import messages
 
 
@@ -24,6 +24,9 @@ def customerRegister(request, uu_id, customer_email):
         clean_customer_email = None
         clean_uu_id = None
         related_employee = None
+    if Customer.objects.filter(email=clean_customer_email):
+        messages.error(request, "This registration link already used. Please authenticate yourself.")
+        return HttpResponseRedirect(reverse("login"))
     context['clean_customer_email'] = clean_customer_email
     context['clean_uu_id'] = clean_uu_id
     context['related_employee'] = related_employee
@@ -35,6 +38,7 @@ def customerRegister(request, uu_id, customer_email):
                 customerObj.related_employee = related_employee
                 customerObj.user_type = 2
                 customerObj.save()
+                messages.success(request, "Registration completed successfully.")
                 return HttpResponseRedirect(reverse("login"))
             else:
                 messages.error(request, "This registration link is only valid for the emailed user.")

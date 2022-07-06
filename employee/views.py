@@ -7,9 +7,10 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.hashers import make_password
 from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.core.signing import Signer
 from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, get_template
 from django.contrib import messages
 from .forms import InvitationForm
 from user.models import Customer
@@ -36,10 +37,10 @@ def dashboardEmployee(request):
             # sending email to customer
             current_site = get_current_site(request)
             customer_email = form.cleaned_data.get("customer_email")
-            mail_subject = 'This account is awaiting your approval.'
+            mail_subject = 'XYZ Company customer registration link.'
             employee_uuid = urlsafe_base64_encode(force_bytes(request.user.employee.uu_id))
             customer_email_hash = urlsafe_base64_encode(force_bytes(customer_email))
-            message = render_to_string('invitation_email.html', {
+            message = get_template('invitation_email.html').render({
                 'user': request.user,
                 'customer_email': customer_email,
                 'domain': current_site.domain,
@@ -49,6 +50,7 @@ def dashboardEmployee(request):
             email = EmailMessage(
                 mail_subject, message, to=[customer_email]
             )
+            email.content_subtype = "html"
             email.send()
             messages.success(request, "Invitation link send to customer email address.")
             return HttpResponseRedirect(reverse("dashboardEmployee"))
