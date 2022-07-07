@@ -12,8 +12,9 @@ from django.core.signing import Signer
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string, get_template
 from django.contrib import messages
-from .forms import InvitationForm
+from .forms import InvitationForm, EmployeeTaskFormCompany, EmployeeTaskFormCustomer
 from user.models import Customer
+from .models import FutureCallLogs
 
 
 # Create your views here.
@@ -61,3 +62,29 @@ def dashboardEmployee(request):
             messages.error(request, list(form.errors.values()) + [1])
             return render(request, 'dashboardEmployee.html', context={'form': form})
     return render(request, "dashboardEmployee.html", context)
+
+
+def employeeTask(request):
+    form = EmployeeTaskFormCompany(request.user.employee)
+    logs = FutureCallLogs.objects.filter(registrant=request.user.employee)
+    context = {
+        "form": form,
+        "logs": logs
+    }
+    if request.method == "POST":
+        form = EmployeeTaskFormCompany(request.user.employee, request.POST)
+        if form.is_valid():
+            company_id = form.cleaned_data.get('company')
+            company = Company.objects.filter(id=company_id).first()
+            customer_form = EmployeeTaskFormCustomer(request.user.employee, company_id)
+            context['customer_form'] = customer_form
+            customer_form = EmployeeTaskFormCustomer(request.user.employee, company_id, request.POST)
+            if customer_form.is_valid():
+                customer_id = customer_form.cleaned_data.get('customer')
+                customer = Customer.objects.filter(id=customer_id).first()
+                content = customer_form.cleaned_data.get('content')
+                futureCallLog = FutureCallLogs(registrant=request.user.employee, company=company, customer=customer,
+                                               content=content)
+                futureCallLog.save()
+                return HttpResponseRedirect(reverse("employeeTask"))
+    return render(request, "employeeTask.html", context)

@@ -10,10 +10,13 @@
             <ul class="nav col-12 col-lg-auto mr-lg-auto justify-content-center mb-md-0">
                 {% if request.user.user_type == 1 %}
                     <li class="nav-item">
-                        <a class="nav-link text-white active" aria-current="page" href="{% url 'dashboardEmployee' %}">Dashboard</a>
+                        <a class="nav-link text-white active" aria-current="page" href="{% url 'dashboardEmployee' %}">Customers</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white active" aria-current="page" href="{% url 'dashboardEmployee' %}">Tasks</a>
+                        <a class="nav-link text-white active" aria-current="page" href="{% url 'employeeTask' %}">Logs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white active" aria-current="page" href="{% url 'employeeTask' %}">Profile</a>
                     </li>
                 {% elif request.user.user_type == 2 %}
                     <li class="nav-item">
