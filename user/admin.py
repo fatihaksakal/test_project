@@ -25,7 +25,7 @@ class MyUserAdmin(UserAdmin):
     )
 
     list_display = ['id', 'email', 'user_type', 'first_name', 'last_name']
-    list_display_links = ['id', 'email', 'user_type', 'first_name', 'last_name']
+    list_display_links = ['id', 'email', 'first_name', 'last_name']
     search_fields = ['email', 'first_name', 'last_name']
     list_filter = ['user_type', 'is_superuser', 'is_staff']
     actions = ["deactivate", "activate"]
@@ -49,10 +49,12 @@ class EmployeeUserAdmin(admin.ModelAdmin):
 
 @admin.register(Customer)
 class CustomerUserAdmin(MyUserAdmin, admin.ModelAdmin):
+    customer_list_displays = ['company']
     customer_fieldsets = (
         ('XYZ Employee', {'fields': ('related_employee',)}),
+        ('Company', {'fields': ('company',)}),
     )
     fieldsets = MyUserAdmin.fieldsets + customer_fieldsets
-
+    list_display = MyUserAdmin.list_display + customer_list_displays
 
 admin.site.register(NewUser, MyUserAdmin)

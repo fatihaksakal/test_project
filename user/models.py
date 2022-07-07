@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 import uuid
+from customer.models import Company
 
 
 # Create your models here.
@@ -63,6 +64,7 @@ class Employee(NewUser):
 
 
 class Customer(NewUser):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, default='Not defined', null=True, blank=True)
     related_employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, default='', null=True, blank=True)
 
     class Meta:

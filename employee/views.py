@@ -37,6 +37,9 @@ def dashboardEmployee(request):
             # sending email to customer
             current_site = get_current_site(request)
             customer_email = form.cleaned_data.get("customer_email")
+            if Customer.objects.filter(email=customer_email):
+                messages.error(request, 'This user already exist')
+                return render(request, "dashboardEmployee.html", context)
             mail_subject = 'XYZ Company customer registration link.'
             employee_uuid = urlsafe_base64_encode(force_bytes(request.user.employee.uu_id))
             customer_email_hash = urlsafe_base64_encode(force_bytes(customer_email))
@@ -52,7 +55,7 @@ def dashboardEmployee(request):
             )
             email.content_subtype = "html"
             email.send()
-            messages.success(request, "Invitation link send to customer email address.")
+            messages.success(request, "Invitation link sent to customer email address.")
             return HttpResponseRedirect(reverse("dashboardEmployee"))
         else:
             messages.error(request, list(form.errors.values()) + [1])

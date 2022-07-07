@@ -2,8 +2,53 @@
 {% load static %}
 
 {% block body %}
-    <div class="container mt-4">
-        <h4>Customer Page</h4>
+    <div class="container justify-content-center mt-4">
+        <div class="col-8">
+            <h4>Send Invitation to Colleague</h4>
+            <form id="customer_invitation_fom" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-9">
+                        <div class="mb-3">
+                            {{ form.colleagues_email }}
+                            <div id="emailHelp" class="form-text">Enter the colleague email to send invitation link.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-success">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="mt-4">
+        {% if colleagues %}
+            <div class="container">
+                <h4>Registered Colleagues</h4>
+                <div class="table-responsive border rounded bg-white"
+                     style="border-top-left-radius: 0 !important; border-top-right-radius: 0 !important;">
+                    <table class="table table-bordered table-hover align-middle mb-0">
+                        <thead class="text-secondary" style="text-align: center;">
+                        <tr>
+                            <th scope="col">Email</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for colleague in colleagues %}
+                            <tr class="text-dark center" style="cursor: default;text-align: center; max-width: 100px;">
+                                <td class="text-truncate" style="font-weight: 600;">{{ colleague.email }}</td>
+                                <td>{{ colleague.first_name }}</td>
+                                <td>{{ colleague.last_name }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock body %}
 
