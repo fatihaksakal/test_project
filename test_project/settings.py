@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -90,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': env('DATABASES_NAME'),
         'USER': env('DATABASES_USER'),
-        'PASSWORD': 'imed',
+        'PASSWORD': env('DATABASES_PASSWORD'),
         'HOST': env('DATABASES_HOST'),
         'PORT': env('DATABASES_PORT'),
         'CONN_MAX_AGE': 0,
@@ -134,6 +135,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
