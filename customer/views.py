@@ -16,9 +16,7 @@ from .models import Company
 # Create your views here.
 def user_customer_check(user):
     return user.user_type == 2
-
-
-# usage --- @user_passes_test(user_customer_check, login_url='/')
+# usage ---> @user_passes_test(user_customer_check, login_url='/')
 
 
 def validate_colleagues_email(user, colleagues_email):
@@ -31,8 +29,7 @@ def validate_colleagues_email(user, colleagues_email):
 
 def customerRegister(request, uu_id, customer_email):
     if request.user.is_authenticated:
-        if request.user.user_type == 1:
-            return HttpResponseRedirect(reverse("dashboardEmployee"))
+        return HttpResponseRedirect(reverse("login"))
     try:
         clean_customer_email = force_str(urlsafe_base64_decode(customer_email))
         clean_uu_id = force_str(urlsafe_base64_decode(uu_id))
@@ -86,6 +83,8 @@ def customerRegister(request, uu_id, customer_email):
     return render(request, "registerCustomer.html", context)
 
 
+@login_required(login_url='/')
+@user_passes_test(user_customer_check, login_url='/')
 def dashboardCustomer(request):
     form = InvitationFormColleagues()
     colleagues = Customer.objects.filter(company__exact=request.user.customer.company).exclude(
@@ -99,6 +98,9 @@ def dashboardCustomer(request):
         if form.is_valid():
             current_site = get_current_site(request)
             colleagues_email = form.cleaned_data.get('colleagues_email')
+            if Customer.objects.filter(email=colleagues_email):
+                messages.error(request, 'This user already exist')
+                return render(request, "dashboardCustomer.html", context)
             if validate_colleagues_email(request.user, colleagues_email):
                 mail_subject = 'XYZ Company customer registration link for colleagues.'
                 employee_uuid = urlsafe_base64_encode(force_bytes(request.user.customer.related_employee.uu_id))

@@ -64,6 +64,8 @@ def dashboardEmployee(request):
     return render(request, "dashboardEmployee.html", context)
 
 
+@login_required(login_url='/')
+@user_passes_test(email_check_employee, login_url='/')
 def employeeTask(request):
     form = EmployeeTaskFormCompany(request.user.employee)
     logs = FutureCallLogs.objects.filter(registrant=request.user.employee)
@@ -90,6 +92,8 @@ def employeeTask(request):
     return render(request, "employeeTask.html", context)
 
 
+@login_required(login_url='/')
+@user_passes_test(email_check_employee, login_url='/')
 def customerOverview(request, pk):
     try:
         customer = Customer.objects.filter(id=force_str(urlsafe_base64_decode(pk)),
