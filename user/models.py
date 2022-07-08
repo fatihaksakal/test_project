@@ -1,9 +1,12 @@
 from django.db import models
+from django.shortcuts import reverse
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 import uuid
 from customer.models import Company
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 
 
 # Create your models here.
@@ -71,3 +74,6 @@ class Customer(NewUser):
 
     class Meta:
         verbose_name = 'Customer'
+
+    def get_absolute_url(self):
+        return reverse('customerOverview', kwargs={'pk': urlsafe_base64_encode(force_bytes(self.id))})

@@ -88,3 +88,18 @@ def employeeTask(request):
                 futureCallLog.save()
                 return HttpResponseRedirect(reverse("employeeTask"))
     return render(request, "employeeTask.html", context)
+
+
+def customerOverview(request, pk):
+    try:
+        customer = Customer.objects.filter(id=force_str(urlsafe_base64_decode(pk)),
+                                           related_employee=request.user.employee).first()
+    except(TypeError, ValueError, OverflowError):
+        customer = None
+
+    if not customer:
+        return HttpResponseRedirect(reverse("dashboardEmployee"))
+    context = {
+        "customer": customer
+    }
+    return render(request, "customerOverview.html", context)

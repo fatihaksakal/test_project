@@ -6,4 +6,5 @@ urlpatterns = [
     path('', views.dashboardEmployee, name='dashboardEmployee'),
     path('logs/', views.employeeTask, name='employeeTask'),
     path('profile/', profile, name='employeeProfile'),
+    path('detail/customer/<slug:pk>', views.customerOverview, name='customerOverview'),
 ]
