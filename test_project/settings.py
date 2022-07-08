@@ -32,7 +32,7 @@ DEBUG = env.bool(
     "DEBUG"
 )
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'test-project-karakoo.herokuapp.com', 'www.test-project-karakoo.herokuapp.com']
 
 # Application definition
 
