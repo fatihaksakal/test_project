@@ -3,24 +3,26 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h4>Create Future Call Log</h4>
-        <form id="customer_invitation_fom" enctype="multipart/form-data" method="post">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-9">
-                    {{ form.company }}
-                    <div id="emailHelp" class="form-text">Choose company for customer selection.
+        <div class="col-lg-8 col-md-12">
+            <h4>Create Future Call Log</h4>
+            <form id="customer_invitation_fom" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-9">
+                        {{ form.company }}
+                        <div id="emailHelp" class="form-text">Choose company for customer selection.
+                        </div>
+                        {{ customer_form.customer.label_tag }}
+                        {{ customer_form.customer }}
+                        {{ customer_form.content.label_tag }}
+                        {{ customer_form.content }}
                     </div>
-                    {{ customer_form.customer.label_tag }}
-                    {{ customer_form.customer }}
-                    {{ customer_form.content.label_tag }}
-                    {{ customer_form.content }}
+                    <div class="col-3">
+                        <button type="submit" class="btn w-100 btn-success">Create Log</button>
+                    </div>
                 </div>
-                <div class="col-3">
-                    <button type="submit" class="btn btn-success">Create Log</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     <div class="my-5">
         {% if logs %}
