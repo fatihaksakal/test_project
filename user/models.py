@@ -48,6 +48,7 @@ class NewUser(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
     user_type = models.PositiveSmallIntegerField(choices=user_type_choices, null=True, blank=True, default='')
+    bio = models.TextField(max_length=300, default='')
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

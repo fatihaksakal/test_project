@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from user.models import *
+from user.forms import MyPasswordChangeForm, userProfileForm
 from django.core.mail import send_mail
 from django_cryptography.fields import b64encode, b64decode
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -13,7 +14,6 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string, get_template
 from django.contrib import messages
 from .forms import InvitationForm, EmployeeTaskFormCompany, EmployeeTaskFormCustomer
-from user.models import Customer
 from .models import FutureCallLogs
 
 

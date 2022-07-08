@@ -16,6 +16,8 @@ from .models import Company
 # Create your views here.
 def user_customer_check(user):
     return user.user_type == 2
+
+
 # usage --- @user_passes_test(user_customer_check, login_url='/')
 
 
@@ -86,7 +88,8 @@ def customerRegister(request, uu_id, customer_email):
 
 def dashboardCustomer(request):
     form = InvitationFormColleagues()
-    colleagues = Customer.objects.filter(company__exact=request.user.customer.company).exclude(id=request.user.customer.id).order_by('-id')
+    colleagues = Customer.objects.filter(company__exact=request.user.customer.company).exclude(
+        id=request.user.customer.id).order_by('-id')
     context = {
         "form": form,
         "colleagues": colleagues

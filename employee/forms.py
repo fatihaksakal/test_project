@@ -1,7 +1,6 @@
 from django import forms
-from .models import FutureCallLogs
 from customer.models import Company
-from user.models import Customer
+from user.models import Customer, Employee
 
 
 # Create your forms here.

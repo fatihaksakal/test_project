@@ -11,7 +11,7 @@ class MyUserAdmin(UserAdmin):
 
     fieldsets = (
         ('User info', {'fields': ('user_type', 'email', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'bio')}),
         ('Permissions', {'fields': (
             'is_active', 'is_staff', 'is_superuser', 'groups',
             'user_permissions')}),
@@ -43,6 +43,7 @@ class EmployeeUserAdmin(admin.ModelAdmin):
     employee_fieldsets = (
         ('Credentials', {'fields': ('uu_id',)}),
     )
+    readonly_fields = ['uu_id']
 
     fieldsets = MyUserAdmin.fieldsets + employee_fieldsets
 
@@ -56,5 +57,6 @@ class CustomerUserAdmin(MyUserAdmin, admin.ModelAdmin):
     )
     fieldsets = MyUserAdmin.fieldsets + customer_fieldsets
     list_display = MyUserAdmin.list_display + customer_list_displays
+
 
 admin.site.register(NewUser, MyUserAdmin)

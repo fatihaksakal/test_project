@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.contrib.auth import logout, authenticate, login as a_login
 from django.contrib import messages
-from .forms import LoginForm, NewUserCreationFormEmployee
+from .forms import LoginForm, NewUserCreationFormEmployee, MyPasswordChangeForm, userProfileForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 
 
 # Create your views here.
@@ -65,3 +66,33 @@ def registerEmployee(request):
             messages.error(request, list(form.errors.values()) + [1])
             return render(request, 'registerEmployee.html', context={'form': form})
     return render(request, 'registerEmployee.html', context)
+
+
+def profile(request):
+    form = userProfileForm(instance=request.user)
+    password_change_form = MyPasswordChangeForm(user=request.user)
+    context = {
+        "form": form,
+        "password_change_form": password_change_form
+    }
+    if request.method == "POST":
+        form = userProfileForm(request.POST or None, instance=request.user)
+        password_change_form = MyPasswordChangeForm(request.user, request.POST or None)
+        if 'profile_form' in request.POST:
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Profile updated successfully.")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            else:
+                messages.error(request, list(form.errors.values()) + [1])
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        if 'password_change_form' in request.POST:
+            if password_change_form.is_valid():
+                user = password_change_form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, "Password changed successfully.")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            else:
+                messages.error(request, "Password confirmation invalid. Please check the values.")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return render(request, "profile.html", context)
