@@ -68,7 +68,7 @@ def dashboardEmployee(request):
 @user_passes_test(email_check_employee, login_url='/')
 def employeeTask(request):
     form = EmployeeTaskFormCompany(request.user.employee)
-    logs = FutureCallLogs.objects.filter(registrant=request.user.employee)
+    logs = FutureCallLogs.objects.filter(registrant=request.user.employee).order_by('-created_date')
     context = {
         "form": form,
         "logs": logs
@@ -76,18 +76,20 @@ def employeeTask(request):
     if request.method == "POST":
         form = EmployeeTaskFormCompany(request.user.employee, request.POST)
         if form.is_valid():
-            company_id = form.cleaned_data.get('company')
-            company = Company.objects.filter(id=company_id).first()
-            customer_form = EmployeeTaskFormCustomer(request.user.employee, company_id)
+            company = form.cleaned_data.get('company')
+            customer_form = EmployeeTaskFormCustomer(request.user.employee, company.id)
+            context['form'] = EmployeeTaskFormCompany(request.user.employee, initial={'company': company})
             context['customer_form'] = customer_form
-            customer_form = EmployeeTaskFormCustomer(request.user.employee, company_id, request.POST)
+            customer_form = EmployeeTaskFormCustomer(request.user.employee, company.id, request.POST)
             if customer_form.is_valid():
-                customer_id = customer_form.cleaned_data.get('customer')
-                customer = Customer.objects.filter(id=customer_id).first()
+                customer = customer_form.cleaned_data.get('customer')
                 content = customer_form.cleaned_data.get('content')
-                futureCallLog = FutureCallLogs(registrant=request.user.employee, company=company, customer=customer,
-                                               content=content)
-                futureCallLog.save()
+                if customer.company == company:
+                    futureCallLog = FutureCallLogs(registrant=request.user.employee, company=company, customer=customer,
+                                                   content=content)
+                    futureCallLog.save()
+                else:
+                    messages.info(request, 'Customer and Company values does not match.')
                 return HttpResponseRedirect(reverse("employeeTask"))
     return render(request, "employeeTask.html", context)
 
@@ -98,12 +100,14 @@ def customerOverview(request, pk):
     try:
         customer = Customer.objects.filter(id=force_str(urlsafe_base64_decode(pk)),
                                            related_employee=request.user.employee).first()
+        logs = FutureCallLogs.objects.filter(customer=customer, registrant=request.user.employee)
     except(TypeError, ValueError, OverflowError):
         customer = None
-
+        logs = None
     if not customer:
         return HttpResponseRedirect(reverse("dashboardEmployee"))
     context = {
-        "customer": customer
+        "customer": customer,
+        "logs": logs
     }
     return render(request, "customerOverview.html", context)

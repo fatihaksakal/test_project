@@ -4,7 +4,7 @@
 {% block body %}
     <div class="container mt-4">
         <div class="col-lg-8 col-md-12">
-            <h4>Create Future Call Log</h4>
+            <h4>Create Duty</h4>
             <form id="customer_invitation_fom" enctype="multipart/form-data" method="post">
                 {% csrf_token %}
                 <div class="row">
@@ -18,7 +18,7 @@
                         {{ customer_form.content }}
                     </div>
                     <div class="col-3">
-                        <button type="submit" class="btn w-100 btn-success">Create Log</button>
+                        <button type="submit" class="btn w-100 btn-success">Create</button>
                     </div>
                 </div>
             </form>
@@ -27,7 +27,7 @@
     <div class="my-5">
         {% if logs %}
             <div class="container">
-                <h4>Created Future Call Logs</h4>
+                <h4>Work Duties</h4>
                 <div class="table-responsive border rounded bg-white"
                      style="border-top-left-radius: 0 !important; border-top-right-radius: 0 !important;">
                     <table class="table table-bordered table-hover align-middle mb-0">
