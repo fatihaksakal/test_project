@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+    <style>
+        .fieldWrapper ul li {
+            font-size: 0.90rem;
+        }
+    </style>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <h4>Update your profile</h4>
+                <form enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="fieldWrapper">
+                            {{ field.errors }}
+                            {{ field.label_tag }} {{ field }}
+                            {% if field.help_text %}
+                                <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <div class="col-3 my-2">
+                        <button type="submit" name="profile_form" class="btn btn-success">Update</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <h4>Update your password</h4>
+                <form enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    {% for field in password_change_form %}
+                        <div class="fieldWrapper">
+                            {{ field.errors }}
+                            {{ field.label_tag }} {{ field }}
+                            {% if field.help_text %}
+                                <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <div class="col-3 my-2">
+                        <button type="submit" name="password_change_form" class="btn btn-success">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+

@@ -2,8 +2,8 @@
 {% load static %}
 
 {% block body %}
-    <div class="container justify-content-center mt-4">
-        <div class="col-8">
+    <div class="container mt-4">
+        <div class="col-lg-8 col-md-12">
             <h4>Send Invitation to Customer</h4>
             <form id="customer_invitation_fom" enctype="multipart/form-data" method="post">
                 {% csrf_token %}
@@ -16,13 +16,13 @@
                         </div>
                     </div>
                     <div class="col-3">
-                        <button type="submit" class="btn btn-success">Send</button>
+                        <button type="submit" class="btn w-100 btn-success">Send</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <div class="mt-4">
+    <div class="mt-5">
         {% if related_customers %}
             <div class="container">
                 <h4>Related Customers</h4>
@@ -45,7 +45,7 @@
                                 <td>{{ customer.last_name }}</td>
                                 <td>
                                     <div class="d-inline-flex">
-                                        <a class="btn-sm btn-primary px-4 py-2"
+                                        <a class="btn-sm btn-primary px-4 py-2" href="{{ customer.get_absolute_url }}"
                                            style="text-decoration: none;">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                  fill="currentColor"

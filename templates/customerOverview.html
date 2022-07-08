@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-6">
+            <table class="table table-hover">
+                <tbody>
+                <tr>
+                    <td>Email</td>
+                    <td>{{ customer.email }}</td>
+                </tr>
+                <tr>
+                    <td>First Name</td>
+                    <td>{{ customer.first_name }}</td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td>{{ customer.last_name }}</td>
+                </tr>
+                <tr>
+                    <td>Biography</td>
+                    <td>{{ customer.bio }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+{% endblock body %}
+
