@@ -9,7 +9,7 @@
     <body>
     <p>Hi <strong>{{ customer_email }}</strong>,</p>
     <p>Please register yourself and your company in XYZ website via the following link.</p>
-    <a href="http://{{ domain }}{% url 'customer_register' uu_id=uid customer_email=customer_email_hash %}">Click here
+    <a href="https://{{ domain }}{% url 'customer_register' uu_id=uid customer_email=customer_email_hash %}">Click here
         to register.</a>
     </body>
     </html>
