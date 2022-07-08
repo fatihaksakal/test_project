@@ -14,10 +14,8 @@ class InvitationForm(forms.Form):
 class EmployeeTaskFormCompany(forms.Form):
     def __init__(self, user, *args, **kwargs):
         super(EmployeeTaskFormCompany, self).__init__(*args, **kwargs)
-        self.fields['company'] = forms.ChoiceField(
-            choices=[(company.id, str(company)) for company in Company.objects.filter(
-                id__in=Customer.objects.filter(related_employee=user).values_list('company').distinct())]
-        )
+        self.fields['company'] = forms.ModelChoiceField(queryset=Company.objects.filter(
+                id__in=Customer.objects.filter(related_employee=user).values_list('company').distinct()))
         self.fields['company'].widget.attrs['class'] = 'form-control'
 
 
@@ -26,9 +24,7 @@ class EmployeeTaskFormCustomer(forms.Form):
 
     def __init__(self, user, company_value, *args, **kwargs):
         super(EmployeeTaskFormCustomer, self).__init__(*args, **kwargs)
-        self.fields['customer'] = forms.ChoiceField(
-            choices=[(customer.id, str(customer)) for customer in Customer.objects.filter(
-                related_employee=user, company=company_value)]
-        )
+        self.fields['customer'] = forms.ModelChoiceField(queryset=Customer.objects.filter(
+            related_employee=user, company=company_value))
         self.fields['customer'].widget.attrs['class'] = 'form-control'
         self.fields['content'].widget.attrs['class'] = 'form-control'
